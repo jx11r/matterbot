@@ -1,0 +1,43 @@
+[discord]
+  [discord.qtile]
+  Token="${DISCORD_TOKEN}"
+  Server="959984260868108359"
+  RemoteNickFormat="{NICK}"
+  UseLocalAvatar=["irc", "telegram"]
+  PreserveThreading=false
+  AutoWebhooks=true
+  EditDisable=true
+
+[irc]
+  [irc.qtile]
+  Server="irc.oftc.net:6667"
+  RemoteNickFormat="<{NICK}> "
+  Nick="relay"
+  ColorNicks=true
+  MessageSplit=true
+  MessageLength=750
+
+[telegram]
+  [telegram.qtile]
+  Token="${TELEGRAM_TOKEN}"
+  RemoteNickFormat="{NICK}: "
+  PreserveThreading=true
+  EditDisable=true
+  QuoteFormat="{MESSAGE} (reply {QUOTEMESSAGE})"
+  QuoteLengthLimit=50
+
+[[gateway]]
+name="main"
+enable=true
+
+[[gateway.inout]]
+account="discord.qtile"
+channel="irc"
+
+[[gateway.inout]]
+account="irc.qtile"
+channel="#qtile_testing"
+
+[[gateway.inout]]
+account="telegram.qtile"
+channel="-1001725047919"
