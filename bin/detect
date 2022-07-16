@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "Matterbridge"
+exit 0
