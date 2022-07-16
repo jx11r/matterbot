@@ -1,0 +1,24 @@
+{
+  "name": "Matterbot",
+  "description": "Deploy to Heroku",
+  "repository": "https://github.com/jx11r/matterbot",
+  "success_url": "/",
+
+  "buildpacks": [
+    { "url": "https://github.com/kr/heroku-buildpack-inline.git" },
+    { "url": "heroku-community/apt" },
+    { "url": "heroku/python" }
+  ],
+
+  "env": {
+    "DISCORD_TOKEN": {
+      "description": "Discord Bot Token",
+      "value": ""
+    },
+
+    "TELEGRAM_TOKEN": {
+      "description": "Telegram Bot Token",
+      "value": ""
+    }
+  }
+}
