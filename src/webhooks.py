@@ -1,5 +1,6 @@
 import requests, traceback, time, random
 from bs4 import BeautifulSoup
+from packaging import version
 
 GITHUB = ''
 
@@ -80,7 +81,8 @@ class _Base:
       print(f"[{self.name}:error] data couldn't be obtained.")
       print(traceback.format_exc())
 
-class Issues(_Base):
+
+class Issue(_Base):
   def __init__(self, name: str, api: str, webhook: str) -> None:
     super().__init__(name, api, webhook)
 
@@ -112,10 +114,7 @@ class Issues(_Base):
           'icon_url': data['user']['avatar_url'],
           'url': data['user']['html_url'],
         },
-        'description': '',
-        'thumbnail': { 'url': '' },
         'image': { 'url': self.image(data['html_url']) },
-        'footer': { 'text': '' },
       }]
     }
 
@@ -125,6 +124,7 @@ class Issues(_Base):
     url = soup.find('meta', property = 'og:image')
 
     return url['content']
+
 
 class Reddit(_Base):
   def __init__(self, name: str, api: str, webhook: str) -> None:
@@ -160,9 +160,7 @@ class Reddit(_Base):
           'icon_url': self.icon(),
           'url': f"{link}/user/{data['author']}",
         },
-        'description': '',
         'thumbnail': { 'url': thumbnail },
-        'image': { 'url': '' },
         'footer': { 'text': footer },
       }]
     }
@@ -170,3 +168,34 @@ class Reddit(_Base):
   def icon(self) -> str:
     number = random.randint(0, 7)
     return f'https://www.redditstatic.com/avatars/defaults/v2/avatar_default_{number}.png'
+
+
+class Release(_Base):
+  def __init__(self, name: str, api: str, webhook: str) -> None:
+    super().__init__(name, api, webhook)
+
+  @property
+  def remote(self) -> str | int:
+    return self._get()['tag_name']
+
+  def validate(self) -> bool:
+    if version.parse(self.remote) > version.parse(self.local):
+      return True
+
+  def _payload(self) -> dict:
+    data = self._get()
+
+    return {
+      'username': 'GitHub',
+      'embeds': [{
+        'color': 0x202225,
+        'title': data['tag_name'],
+        'url': data['html_url'],
+        'author': {
+          'name': data['author']['login'],
+          'icon_url': data['author']['avatar_url'],
+          'url': data['author']['html_url'],
+        },
+        'description': data['body'],
+      }]
+    }
