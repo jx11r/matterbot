@@ -205,7 +205,7 @@ class Release(_Base):
 issues = Issue(
   name = 'issues',
   api = 'https://api.github.com/repos/qtile/qtile/issues?per_page=1',
-  webhook = env.webhook['github'],
+  webhook = env.webhook['issues'],
 )
 
 reddit = Reddit(
@@ -217,7 +217,7 @@ reddit = Reddit(
 releases = Release(
   name = 'releases',
   api = 'https://api.github.com/repos/qtile/qtile/releases/latest',
-  webhook = env.webhook['announcements'],
+  webhook = env.webhook['releases'],
 )
 
 def loop() -> None:
@@ -227,7 +227,5 @@ def loop() -> None:
     releases.run()
     time.sleep(60)
 
-def start() -> None:
-  thread = Thread(target = loop)
-  thread.daemon = True
-  thread.start()
+def init() -> None:
+  Thread(target = loop, daemon = True).start()
