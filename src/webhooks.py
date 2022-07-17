@@ -1,4 +1,4 @@
-import requests, traceback, time
+import requests, traceback, time, random
 from bs4 import BeautifulSoup
 
 GITHUB = ''
@@ -125,3 +125,48 @@ class Issues(_Base):
     url = soup.find('meta', property = 'og:image')
 
     return url['content']
+
+class Reddit(_Base):
+  def __init__(self, name: str, api: str, webhook: str) -> None:
+    super().__init__(name, api, webhook)
+
+  @property
+  def remote(self) -> str | int:
+    return self._get()['data']['children'][0]['data']['id']
+
+  def validate(self) -> bool:
+    if self.remote != self.local:
+      return True
+
+  def _payload(self) -> dict:
+    data = self._get()['data']['children'][0]['data']
+    link, thumbnail = 'https://reddit.com', ''
+    footer = 'Flair Name: Unspecified'
+
+    if data['link_flair_text'] is not None:
+      footer = f"Flair Name: {data['link_flair_text'].capitalize()}"
+
+    if 'https' in data['thumbnail']:
+      thumbnail = data['thumbnail']
+
+    return {
+      'username': data['subreddit_name_prefixed'],
+      'embeds': [{
+        'color': 0xff4400,
+        'title': data['title'],
+        'url': f"{link}{data['permalink']}",
+        'author': {
+          'name': data['author'],
+          'icon_url': self.icon(),
+          'url': f"{link}/user/{data['author']}",
+        },
+        'description': '',
+        'thumbnail': { 'url': thumbnail },
+        'image': { 'url': '' },
+        'footer': { 'text': footer },
+      }]
+    }
+
+  def icon(self) -> str:
+    number = random.randint(0, 7)
+    return f'https://www.redditstatic.com/avatars/defaults/v2/avatar_default_{number}.png'
