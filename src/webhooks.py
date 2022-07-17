@@ -1,4 +1,5 @@
-import requests, traceback
+import requests, traceback, time
+from bs4 import BeautifulSoup
 
 GITHUB = ''
 
@@ -78,3 +79,49 @@ class _Base:
     except Exception:
       print(f"[{self.name}:error] data couldn't be obtained.")
       print(traceback.format_exc())
+
+class Issues(_Base):
+  def __init__(self, name: str, api: str, webhook: str) -> None:
+    super().__init__(name, api, webhook)
+
+  @property
+  def remote(self) -> str | int:
+    return self._get()[0]['number']
+
+  def validate(self) -> bool:
+    if self.remote > int(self.local):
+      return True
+
+  def _payload(self) -> dict:
+    data = self._get()[0]
+    color = 0xeb6420
+    title = f"Issue opened: #{data['number']}"
+
+    if 'pull_request' in data:
+      color = 0x7289da
+      title = f"Pull request opened: #{data['number']}"
+
+    return {
+      'username': 'GitHub',
+      'embeds': [{
+        'color': color,
+        'title': title,
+        'url': data['html_url'],
+        'author': {
+          'name': data['user']['login'],
+          'icon_url': data['user']['avatar_url'],
+          'url': data['user']['html_url'],
+        },
+        'description': '',
+        'thumbnail': { 'url': '' },
+        'image': { 'url': self.image(data['html_url']) },
+        'footer': { 'text': '' },
+      }]
+    }
+
+  def image(self, url: str) -> str:
+    html = requests.get(url)
+    soup = BeautifulSoup(html.text, 'html.parser')
+    url = soup.find('meta', property = 'og:image')
+
+    return url['content']
