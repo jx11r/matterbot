@@ -1,8 +1,9 @@
 import requests, traceback, time, random
+from threading import Thread
 from bs4 import BeautifulSoup
 from packaging import version
 
-GITHUB = ''
+from src import env
 
 class _Base:
   def __init__(self, name: str, api: str, webhook: str) -> None:
@@ -14,7 +15,7 @@ class _Base:
   def _get(self) -> dict:
     headers = {
       'User-Agent': 'jx11r',
-      'Authorization': f'token {GITHUB}',
+      'Authorization': f"token {env.token['github']}",
       'Accept': 'application/vnd.github.v3+json',
     }
 
@@ -199,3 +200,34 @@ class Release(_Base):
         'description': data['body'],
       }]
     }
+
+
+issues = Issue(
+  name = 'issues',
+  api = 'https://api.github.com/repos/qtile/qtile/issues?per_page=1',
+  webhook = env.webhook['github'],
+)
+
+reddit = Reddit(
+  name = 'reddit',
+  api = 'https://www.reddit.com/r/qtile/new.json?limit=1',
+  webhook = env.webhook['reddit'],
+)
+
+releases = Release(
+  name = 'releases',
+  api = 'https://api.github.com/repos/qtile/qtile/releases/latest',
+  webhook = env.webhook['announcements'],
+)
+
+def loop() -> None:
+  while True:
+    issues.run()
+    reddit.run()
+    releases.run()
+    time.sleep(60)
+
+def start() -> None:
+  thread = Thread(target = loop)
+  thread.daemon = True
+  thread.start()
