@@ -23,7 +23,7 @@
   RemoteNickFormat="{NICK}: "
   PreserveThreading=true
   EditDisable=true
-  QuoteFormat="{MESSAGE} (reply {QUOTEMESSAGE})"
+  QuoteFormat="{MESSAGE} [reply to: {QUOTEMESSAGE}]"
   QuoteLengthLimit=50
 
 [[gateway]]
