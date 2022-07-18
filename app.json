@@ -1,0 +1,33 @@
+{
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "https://github.com/kr/heroku-buildpack-inline.git"
+    },
+    {
+      "url": "heroku-community/apt"
+    },
+    {
+      "url": "heroku/python"
+    }
+  ],
+  "description": "Bridge between Discord, IRC and Telegram.",
+  "env": {
+    "DISCORD_TOKEN": "",
+    "TELEGRAM_TOKEN": "",
+    "GITHUB_TOKEN": "",
+    "WEBHOOOK_ISSUES": "",
+    "WEBHOOK_REDDIT": "",
+    "WEBHOOK_RELEASES": "",
+    "WEBHOOK_CMD": "",
+    "WEBHOOK_LOGS": ""
+  },
+  "formation": {
+  },
+  "name": "matterbot",
+  "scripts": {
+  },
+  "stack": "heroku-22"
+}
