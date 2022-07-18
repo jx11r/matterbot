@@ -1,0 +1,21 @@
+{
+  "name": "logdrain",
+  "description": "A small server to relay heroku logs to Discord.",
+  "repository": "https://github.com/jx11r/matterbot",
+  "stack": "heroku-22",
+
+  "buildpacks": [
+    { "url": "heroku-community/multi-procfile" },
+    { "url": "heroku/python" }
+  ],
+
+  "env": {
+    "PROCFILE": "",
+    "DISCORD_TOKEN": "",
+    "WEBHOOK_LOGS": ""
+  },
+
+  "addons": [ ],
+  "formation": { },
+  "scripts": { }
+}
