@@ -19,7 +19,7 @@
     "WEBHOOK_ISSUES": "",
     "WEBHOOK_REDDIT": "",
     "WEBHOOK_RELEASES": "",
-    "WEBHOOK_TESTS": ""
+    "WEBHOOK_TEST": ""
   },
 
   "addons": [ ],
