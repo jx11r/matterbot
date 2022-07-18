@@ -1,4 +1,4 @@
-requests >= 2.27.1
-packaging >= 20.9
-beautifulsoup4 >= 4.10.0
-discord.py >= 1.7.3
+requests
+packaging
+beautifulsoup4
+discord.py
