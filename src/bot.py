@@ -1,4 +1,4 @@
-import discord, traceback
+import discord, traceback, time
 from discord.ext import commands
 
 from src import env, bridge
@@ -65,4 +65,5 @@ async def on_ready():
   print('Matterbot has been started.')
 
 def init() -> None:
+  time.sleep(10)
   bot.run(env.token['discord'])
