@@ -16,6 +16,6 @@ VERSION=$(echo $LATEST_RELEASE | sed -e 's/.*"tag_name":"\([^"]*\)".*/\1/' | sed
 DOWNLOAD_URL="https://github.com/${USER}/${REPO}/releases/download/v${VERSION}/${REPO}-${VERSION}-linux-64bit"
 
 echo "-----> Downloading Matterbridge: v${VERSION}"
-cd $BUILD_DIR
+cd $BUILD_DIR && mkdir -p file
 curl -s -L $DOWNLOAD_URL -o matterbridge
 chmod +x matterbridge
