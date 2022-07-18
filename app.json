@@ -7,10 +7,12 @@
   "buildpacks": [
     { "url": "https://github.com/kr/heroku-buildpack-inline.git" },
     { "url": "heroku-community/apt" },
+    { "url": "heroku-community/multi-procfile" },
     { "url": "heroku/python" }
   ],
 
   "env": {
+    "PROCFILE": "",
     "DISCORD_TOKEN": "",
     "GITHUB_TOKEN": "",
     "TELEGRAM_TOKEN": "",
