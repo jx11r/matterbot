@@ -2,3 +2,4 @@ requests
 packaging
 beautifulsoup4
 discord.py
+Flask[async]
