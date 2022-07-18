@@ -12,13 +12,13 @@
 
   "env": {
     "DISCORD_TOKEN": "",
-    "TELEGRAM_TOKEN": "",
     "GITHUB_TOKEN": "",
+    "TELEGRAM_TOKEN": "",
     "WEBHOOK_ISSUES": "",
+    "WEBHOOK_LOGS": "",
     "WEBHOOK_REDDIT": "",
     "WEBHOOK_RELEASES": "",
-    "WEBHOOK_CMD": "",
-    "WEBHOOK_LOGS": ""
+    "WEBHOOK_TESTS": ""
   },
 
   "addons": [ ],
