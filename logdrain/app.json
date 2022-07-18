@@ -1,6 +1,6 @@
 {
   "name": "logdrain",
-  "description": "A small server to relay heroku logs to Discord.",
+  "description": "Small server to relay heroku logs to Discord.",
   "repository": "https://github.com/jx11r/matterbot",
   "stack": "heroku-22",
 
