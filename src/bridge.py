@@ -1,6 +1,6 @@
 import os, subprocess
 
-CONFIG = 'file/env.toml'
+CONFIG = 'bridge/env.toml'
 
 def status() -> bool | str:
   process = subprocess.Popen(

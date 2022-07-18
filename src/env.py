@@ -4,7 +4,7 @@ from src.bridge import CONFIG
 def apply() -> None:
   envsubst = './.apt/usr/bin/envsubst'
   subprocess.Popen(
-    [f'{envsubst} < file/config.toml > {CONFIG}'],
+    [f'{envsubst} < bridge/config.toml > {CONFIG}'],
     shell = True,
   ).wait()
 
