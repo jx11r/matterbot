@@ -18,5 +18,5 @@ webhook = {
   'issues': os.environ.get('WEBHOOK_ISSUES'),
   'reddit': os.environ.get('WEBHOOK_REDDIT'),
   'releases': os.environ.get('WEBHOOK_RELEASES'),
-  'tests': os.environ.get('WEBHOOK_TESTS'),
+  'test': os.environ.get('WEBHOOK_TEST'),
 }
