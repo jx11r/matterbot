@@ -1,5 +1,4 @@
-import discord, traceback, asyncio
-from threading import Thread
+import discord, traceback
 from discord.ext import commands
 
 from src import env, bridge
@@ -66,6 +65,4 @@ async def on_ready():
   print('Matterbot has been started.')
 
 def init() -> None:
-  loop = asyncio.get_event_loop()
-  loop.create_task(bot.start(env.token['discord']))
-  Thread(target = loop.run_forever, daemon = True).start()
+  bot.run(env.token['discord'])
