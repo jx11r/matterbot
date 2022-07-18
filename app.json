@@ -14,7 +14,7 @@
     "DISCORD_TOKEN": "",
     "TELEGRAM_TOKEN": "",
     "GITHUB_TOKEN": "",
-    "WEBHOOOK_ISSUES": "",
+    "WEBHOOK_ISSUES": "",
     "WEBHOOK_REDDIT": "",
     "WEBHOOK_RELEASES": "",
     "WEBHOOK_CMD": "",
