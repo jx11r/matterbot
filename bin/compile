@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# Directories
-BUILD_DIR=$1
-CACHE_DIR=$2
-ENV_DIR=$3
-
 # GitHub Repository
 USER='42wim'
 REPO='matterbridge'
@@ -16,6 +11,5 @@ VERSION=$(echo $LATEST_RELEASE | sed -e 's/.*"tag_name":"\([^"]*\)".*/\1/' | sed
 DOWNLOAD_URL="https://github.com/${USER}/${REPO}/releases/download/v${VERSION}/${REPO}-${VERSION}-linux-64bit"
 
 echo "-----> Downloading Matterbridge: v${VERSION}"
-cd $BUILD_DIR && mkdir -p file
 curl -s -L $DOWNLOAD_URL -o matterbridge
-chmod +x matterbridge
+chmod +x matterbridge && mkdir -p file
