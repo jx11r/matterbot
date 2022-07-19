@@ -36,16 +36,16 @@ class _Base:
       return content
 
   def send(self) -> bool:
-    payload = self.payload
     try:
+      payload = self.payload
       with requests.post(self._webhook, json = payload) as response:
+        if response.status_code != 204:
+          return False
         logger(f'[{self.name}:status] {response.status_code}')
         logger(f'[{self.name}:payload] {payload}')
         return True
-
     except Exception:
       logger(f'[{self.name}:error] data not send.')
-      logger(f'[{self.name}:payload] {payload}')
       logger(traceback.format_exc())
       return False
 
@@ -74,14 +74,11 @@ class _Base:
         logger(f'[{self.name}:{self.remote}] new data received, sending...')
         if self.send():
           self._write(str(self.remote))
-
     except FileNotFoundError:
       self._write(str(self.remote))
-
     except Exception:
       logger(f"[{self.name}:error] data couldn't be obtained.")
       logger(traceback.format_exc())
-
 
 class Issue(_Base):
   def __init__(self, name: str, api: str, webhook: str) -> None:
@@ -123,9 +120,7 @@ class Issue(_Base):
     html = requests.get(url)
     soup = BeautifulSoup(html.text, 'html.parser')
     url = soup.find('meta', property = 'og:image')
-
     return url['content']
-
 
 class Reddit(_Base):
   def __init__(self, name: str, api: str, webhook: str) -> None:
@@ -170,7 +165,6 @@ class Reddit(_Base):
     number = random.randint(0, 7)
     return f'https://www.redditstatic.com/avatars/defaults/v2/avatar_default_{number}.png'
 
-
 class Release(_Base):
   def __init__(self, name: str, api: str, webhook: str) -> None:
     super().__init__(name, api, webhook)
@@ -200,7 +194,6 @@ class Release(_Base):
         'description': data['body'],
       }]
     }
-
 
 issues = Issue(
   name = 'issues',
