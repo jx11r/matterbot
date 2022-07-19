@@ -1,5 +1,6 @@
-requests
-packaging
 beautifulsoup4
 discord.py
 Flask[async]
+packaging
+requests
+tzdata
