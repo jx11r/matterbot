@@ -2,6 +2,7 @@ import discord, traceback, time
 from discord.ext import commands
 
 from src import env, bridge
+from src.utils import logger
 
 active = discord.Activity(
   type = discord.ActivityType.listening,
@@ -62,8 +63,8 @@ async def on_command_error(context, error):
 
 @bot.event
 async def on_ready():
-  print('Matterbot has been started.')
+  logger('Matterbot has been started.')
 
 def init() -> None:
-  time.sleep(10)
+  time.sleep(15)
   bot.run(env.token['discord'])

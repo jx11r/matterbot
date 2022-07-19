@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from packaging import version
 
 from src import env
+from src.utils import logger
 
 class _Base:
   def __init__(self, name: str, api: str, webhook: str) -> None:
@@ -32,21 +33,20 @@ class _Base:
     with open(self._dir, 'r') as file:
       content = file.read()
       file.close()
-
-    return content
+      return content
 
   def send(self) -> bool:
     payload = self.payload
     try:
       with requests.post(self._webhook, json = payload) as response:
-        print(f'[{self.name}:status] {response.status_code}')
-        print(f'[{self.name}:payload] {payload}')
-      return True
+        logger(f'[{self.name}:status] {response.status_code}')
+        logger(f'[{self.name}:payload] {payload}')
+        return True
 
     except Exception:
-      print(f'[{self.name}:error] data not send.')
-      print(f'[{self.name}:payload] {payload}')
-      print(traceback.format_exc())
+      logger(f'[{self.name}:error] data not send.')
+      logger(f'[{self.name}:payload] {payload}')
+      logger(traceback.format_exc())
       return False
 
   @property
@@ -54,8 +54,8 @@ class _Base:
     try:
       return self._payload()
     except Exception:
-      print(f'[{self.name}:error] unable to get payload.')
-      print(traceback.format_exc())
+      logger(f'[{self.name}:error] unable to get payload.')
+      logger(traceback.format_exc())
       return {}
 
   def _payload(self) -> dict:
@@ -71,7 +71,7 @@ class _Base:
   def run(self) -> None:
     try:
       if self.validate():
-        print(f'[{self.name}:{self.remote}] new data received, sending...')
+        logger(f'[{self.name}:{self.remote}] new data received, sending...')
         if self.send():
           self._write(str(self.remote))
 
@@ -79,8 +79,8 @@ class _Base:
       self._write(str(self.remote))
 
     except Exception:
-      print(f"[{self.name}:error] data couldn't be obtained.")
-      print(traceback.format_exc())
+      logger(f"[{self.name}:error] data couldn't be obtained.")
+      logger(traceback.format_exc())
 
 
 class Issue(_Base):
