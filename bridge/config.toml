@@ -1,7 +1,7 @@
 [discord]
   [discord.qtile]
   Token="${DISCORD_TOKEN}"
-  Server="959984260868108359"
+  Server="955163559086665728"
   RemoteNickFormat="{NICK}"
   UseLocalAvatar=["irc", "telegram"]
   PreserveThreading=false
@@ -36,8 +36,8 @@ channel="irc"
 
 [[gateway.inout]]
 account="irc.qtile"
-channel="#qtile_testing"
+channel="#qtile"
 
 [[gateway.inout]]
 account="telegram.qtile"
-channel="-1001725047919"
+channel="-1001761413417"
