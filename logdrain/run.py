@@ -10,10 +10,17 @@ async def logs():
   return jsonify({'status': 'ok'})
 
 def sanitize(text: str) -> None:
-  for i in text.split('\n'):
-    send(re.sub('^.*\s\d{4}.+\w.*-\s', '', i.strip()))
+  regex, error = '^.*\s\d{4}.*?\s-\s?', ''
 
-def send(text: str) -> str:
+  if re.search('Traceback', text, flags = re.M):
+    for i in text.split('\n'):
+      error += f"{re.sub(regex, '', i)}\n"
+    send(error.strip())
+  else:
+    for i in text.split('\n'):
+      send(re.sub(regex, '', i).strip())
+
+def send(text: str) -> None:
   payload = {
     'username': 'Heroku',
     'embeds': [{
@@ -22,8 +29,7 @@ def send(text: str) -> str:
     }]
   }
 
-  with requests.post(webhook, json = payload) as response:
-    return response.status_code
+  requests.post(webhook, json = payload)
 
-port = int(os.environ.get('PORT', 5000))
-app.run(debug = False, host = '0.0.0.0', port = port)
+if __name__ == '__main__':
+  app.run(debug = False)
