@@ -10,15 +10,10 @@ async def logs():
   return jsonify({'status': 'ok'})
 
 def sanitize(text: str) -> None:
-  regex, error = '^.*\s\d{4}.*?\s-\s?', ''
-
-  if re.search('Traceback', text, flags = re.M):
-    for i in text.split('\n'):
-      error += f"{re.sub(regex, '', i)}\n"
-    send(error.strip())
-  else:
-    for i in text.split('\n'):
-      send(re.sub(regex, '', i).strip())
+  regex, msg = '^.*\s\d{4}.*?\s-\s?', ''
+  for i in text.split('\n'):
+    msg += f"{re.sub(regex, '', i)}\n"
+  send(msg.strip())
 
 def send(text: str) -> None:
   payload = {
