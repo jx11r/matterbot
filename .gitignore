@@ -1,8 +1,7 @@
 # Files
-env.sh
 bridge/env.toml
 matterbridge
-src/__pycache__
 
 # Folders
-file/*
+__pycache__
+file/
