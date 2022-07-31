@@ -137,10 +137,10 @@ class Reddit(_Base):
   def _payload(self) -> dict:
     data = self._get()['data']['children'][0]['data']
     link, thumbnail = 'https://reddit.com', ''
-    footer = 'Flair Name: Unspecified'
+    footer = 'Flair: Unspecified'
 
     if data['link_flair_text'] is not None:
-      footer = f"Flair Name: {data['link_flair_text'].capitalize()}"
+      footer = f"Flair: {data['link_flair_text'].capitalize()}"
 
     if 'https' in data['thumbnail']:
       thumbnail = data['thumbnail']
