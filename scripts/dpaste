@@ -1,16 +1,19 @@
 #!/usr/bin/env python
 
 import re
+import time
 
 import requests
 
+API = "https://dpaste.com/api/v2/"
 
 # create a new paste and return its link
 def create(content: str) -> str:
-    url = "https://0x0.st"
-    resp = requests.post(url, files={"file": ("", content)})
-    if resp.status_code == 200:
-        return resp.text.strip()
+    headers = {"User-Agent": "matterbot"}
+    data = {"content": content, "expiry_days": 30}
+    with requests.post(API, data, headers=headers) as resp:
+        if resp.status_code == 201:
+            return resp.text.strip()
     return "(error: code block not relayed)"
 
 
@@ -20,14 +23,19 @@ def clean(text: str) -> str:
     urls, message = [], ""
 
     # iterate over code blocks and clean them
-    for block in re.findall(regex, text):
+    codeblocks = re.findall(regex, text)
+    for i, block in enumerate(codeblocks):
         if len(block.split("\n")) > 1:
             # ```py\nprint()\n``` -> print()
             block = re.sub(r"^.*\n|\n`{3}$", "", block)
         else:
             # ``` print() ``` -> print()
             block = re.sub(r"^`{3}\s*|\s*`{3}$", "", block)
+        # the recommended request rate is no more than one per second
+        # see https://dpaste.com/api/
         urls.append(create(block))
+        if len(codeblocks) > (i + 1):
+            time.sleep(1)
 
     # replace code blocks
     text = re.sub(regex, "{CODEBLOCK}", text)

@@ -21,7 +21,7 @@ if outProtocol == "irc" {
     file.write_string(msgText)
     file.close()
 
-    cmd := os.exec("./scripts/0x0")
+    cmd := os.exec("./scripts/dpaste")
     msgText = text.trim_space(cmd.output())
   }
 }
