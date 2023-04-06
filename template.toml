@@ -1,0 +1,56 @@
+[discord.qtile]
+AutoWebhooks = true
+EditDisable = true
+PreserveThreading = false
+RemoteNickFormat = "{NICK}"
+Server = "955163559086665728"
+Token = ""
+UseLocalAvatar = [ "irc", "telegram" ]
+ReplaceNicks = [
+  [ "\\[.*\\]", "" ],
+  [ "\\(.*\\)", "" ],
+  [ "[[:^word:]]", "" ],
+]
+
+[irc.qtile]
+ColorNicks = true
+Nick = "relay"
+MessageClipped = "-"
+MessageLength = 400
+MessageSplit = true
+RemoteNickFormat = "<{NICK}> "
+Server = "irc.oftc.net:6667"
+ReplaceNicks = [
+  [ "\\[.*\\].*", "" ],
+  [ "[[:^alnum:]]", "" ],
+]
+
+[telegram.qtile]
+EditDisable = true
+PreserveThreading = true
+QuoteFormat = "\"{QUOTEMESSAGE}\" <- {MESSAGE}"
+QuoteLengthLimit = 50
+RemoteNickFormat = "{NICK}: "
+Token = ""
+ReplaceNicks = [
+  [ "[^A-Za-z0-9_.]", "" ],
+]
+
+[tengo]
+OutMessage = "scripts/outmessage.tengo"
+
+[[gateway]]
+enable = true
+name = "main"
+
+[[gateway.inout]]
+account = "discord.qtile"
+channel = "irc"
+
+[[gateway.inout]]
+account = "irc.qtile"
+channel = "#qtile"
+
+[[gateway.inout]]
+account = "telegram.qtile"
+channel = "-1001761413417"
