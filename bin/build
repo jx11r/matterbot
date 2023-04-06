@@ -1,0 +1,46 @@
+#!/usr/bin/env python
+
+import os
+
+import requests
+import toml
+
+# package info
+owner = "42wim"
+pkg = "matterbridge"
+path = f"bin/{pkg}"
+
+# get the latest version of matterbridge
+def latest_version() -> str:
+    url = f"https://api.github.com/repos/{owner}/{pkg}/releases/latest"
+    with requests.get(url) as resp:
+        data = resp.json()
+        return data["tag_name"].lstrip("v")
+
+
+def download(version: str):
+    if os.path.exists(path):
+        os.remove(path)
+    print(f"Downloading {pkg} v{version}...")
+    with requests.get(
+        f"https://github.com/{owner}/{pkg}/releases/download/v{version}/{pkg}-{version}-linux-64bit"
+    ) as resp:
+        open(path, "wb").write(resp.content)
+        os.chmod(path, 0o755)
+
+
+def generate_config():
+    with open("template.toml") as file:
+        cfg = toml.load(file)
+        cfg["discord"]["qtile"]["Token"] = os.environ.get("DISCORD_TOKEN")
+        cfg["telegram"]["qtile"]["Token"] = os.environ.get("TELEGRAM_TOKEN")
+    with open(f"{pkg}.toml", "w") as file:
+        print("Generating configuration file...")
+        toml.dump(cfg, file)
+
+
+if __name__ == "__main__":
+    # version = "1.26.0"
+    version = latest_version()
+    download(version)
+    generate_config()
