@@ -1,0 +1,27 @@
+// fmt := import("fmt")
+text := import("text")
+os := import("os")
+
+// if we're not sending to an irc bridge we strip the irc colors
+if inProtocol == "irc" && outProtocol != "irc" {
+  re := text.re_compile(`\x03(?:\d{1,2}(?:,\d{1,2})?)?|[[:cntrl:]]`)
+  msgText = re.replace(msgText, "")
+}
+
+// strip custom emoji
+if inProtocol == "discord" {
+  re := text.re_compile(`<a?(:.*?:)[0-9]+>`)
+  msgText = re.replace(msgText, "$1")
+}
+
+// replace code blocks on irc
+if outProtocol == "irc" {
+  if text.re_match(`\x60{3}`, msgText) {
+    file := os.create("message.txt")
+    file.write_string(msgText)
+    file.close()
+
+    cmd := os.exec("./scripts/0x0")
+    msgText = text.trim_space(cmd.output())
+  }
+}

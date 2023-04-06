@@ -1,0 +1,46 @@
+#!/usr/bin/env python
+
+import re
+
+import requests
+
+
+# create a new paste and return its link
+def create(content: str) -> str:
+    url = "https://0x0.st"
+    resp = requests.post(url, files={"file": ("", content)})
+    if resp.status_code == 200:
+        return resp.text.strip()
+    return "(error: code block not relayed)"
+
+
+# i have no idea how to name this function
+def clean(text: str) -> str:
+    regex = r"`{3}[^`]*`{3}"
+    urls, message = [], ""
+
+    # iterate over code blocks and clean them
+    for block in re.findall(regex, text):
+        if len(block.split("\n")) > 1:
+            # ```py\nprint()\n``` -> print()
+            block = re.sub(r"^.*\n|\n`{3}$", "", block)
+        else:
+            # ``` print() ``` -> print()
+            block = re.sub(r"^`{3}\s*|\s*`{3}$", "", block)
+        urls.append(create(block))
+
+    # replace code blocks
+    text = re.sub(regex, "{CODEBLOCK}", text)
+    for line in text.split("\n"):
+        if line == "{CODEBLOCK}":
+            message += f"{urls.pop(0)}\n"
+            continue
+        message += f"{line}\n"
+    return message.strip()
+
+
+if __name__ == "__main__":
+    with open("message.txt") as file:
+        message = file.read()
+        print(clean(message))
+        print(clean(message))
