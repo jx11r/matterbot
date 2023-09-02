@@ -6,6 +6,7 @@ RemoteNickFormat = "{NICK}"
 Server = "955163559086665728"
 Token = ""
 UseLocalAvatar = [ "irc", "telegram" ]
+UseUserName = false
 ReplaceNicks = [
   [ "\\[.*\\]", "" ],
   [ "\\(.*\\)", "" ],
@@ -45,7 +46,7 @@ name = "main"
 
 [[gateway.inout]]
 account = "discord.qtile"
-channel = "irc"
+channel = "ID:955650645833162822"
 
 [[gateway.inout]]
 account = "irc.qtile"
