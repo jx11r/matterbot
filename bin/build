@@ -40,7 +40,7 @@ def generate_config():
 
 
 if __name__ == "__main__":
-    # version = "1.26.0"
-    version = latest_version()
+    # version = latest_version()
+    version = "1.26.0"
     download(version)
     generate_config()
