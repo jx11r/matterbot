@@ -6,12 +6,7 @@ RemoteNickFormat = "{NICK}"
 Server = "955163559086665728"
 Token = ""
 UseLocalAvatar = [ "irc", "telegram" ]
-UseUserName = false
-ReplaceNicks = [
-  [ "\\[.*\\]", "" ],
-  [ "\\(.*\\)", "" ],
-  [ "[[:^word:]]", "" ],
-]
+UseUserName = true
 
 [irc.qtile]
 ColorNicks = true
@@ -23,7 +18,7 @@ RemoteNickFormat = "<{NICK}> "
 Server = "irc.oftc.net:6667"
 ReplaceNicks = [
   [ "\\[.*\\].*", "" ],
-  [ "[[:^alnum:]]", "" ],
+  [ "[^\\w]", "" ],
 ]
 
 [telegram.qtile]
